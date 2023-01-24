@@ -4,6 +4,7 @@ import {
   HStack,
   IconButton,
   LightMode,
+  Stack,
   useColorMode,
   useColorModeValue,
   useDisclosure,
@@ -24,16 +25,25 @@ export default function Header() {
     onOpen: onSignUpOpen,
   } = useDisclosure();
 
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { toggleColorMode } = useColorMode();
   const logoColor = useColorModeValue("red.500", "red.200");
   const Icon = useColorModeValue(FaMoon, FaSun);
 
   return (
-    <HStack
+    <Stack
+      spacing={{
+        sm: 3,
+        md: 0,
+      }}
+      alignItems={"center"}
       justifyContent={"space-between"}
-      px={"10"}
-      py={"5"}
+      px={40}
+      py={5}
       borderBottomWidth={1}
+      direction={{
+        sm: "column",
+        md: "row",
+      }}
     >
       <Box color={logoColor}>
         <FaAirbnb size={"48"} />
@@ -54,6 +64,6 @@ export default function Header() {
       </HStack>
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
       <SignUpModal isOpen={isSignUpOpen} onClose={onSignUpClose} />
-    </HStack>
+    </Stack>
   );
 }
