@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
-    <VStack bg={"green.100"} justifyContent={"center"} minH="50vh">
+    <VStack justifyContent={"center"} minH="50vh">
       <Heading>Page Not Found</Heading>
       <Text>It seems that you're lost.</Text>
       <Link to={"/"}>
