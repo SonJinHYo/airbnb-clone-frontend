@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import Root from "./components/Root";
 import Homes from "./routes/Home";
 import NotFound from "./routes/NotFound";
-import Users from "./routes/Users";
 
 const router = createBrowserRouter([
   {
@@ -13,10 +12,6 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Homes />,
-      },
-      {
-        path: "users",
-        element: <Users />,
       },
     ],
   },

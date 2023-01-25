@@ -1,7 +1,28 @@
-import { Box, Grid, Skeleton, SkeletonText } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import { getRooms } from "../api";
 import Room from "../components/Room";
+import RoomSkeleton from "../components/RoomSkeleton";
+
+interface IPhotos {
+  pk: string;
+  file: string;
+  description: string;
+}
+
+interface IRoom {
+  pk: number;
+  name: string;
+  country: string;
+  city: string;
+  price: number;
+  rating: number;
+  is_owner: boolean;
+  photos: IPhotos[];
+}
 
 export default function Homes() {
+  const { isLoading, data } = useQuery<IRoom[]>(["rooms"], getRooms);
   return (
     <Grid
       mt={10}
@@ -19,13 +40,34 @@ export default function Homes() {
         "2xl": "repeat(5, 1fr)",
       }}
     >
-      <Box>
-        <Skeleton height={280} rounded="2xl" mb={7} />
-        <SkeletonText noOfLines={1} w={"100%"} mb={2} />
-        <SkeletonText noOfLines={1} w={"50%"} mb={7} />
-        <SkeletonText noOfLines={1} w={"30%"} />
-      </Box>{" "}
-      <Room />
+      {isLoading ? (
+        <>
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+        </>
+      ) : null}
+      {data?.map((room) => (
+        <Room
+          imageUrl={room.photos[0].file}
+          name={room.name}
+          rating={room.rating}
+          city={room.city}
+          country={room.country}
+          price={room.price}
+        />
+      ))}
     </Grid>
   );
 }
