@@ -21,6 +21,7 @@ import { FaAirbnb, FaMoon, FaSun } from "react-icons/fa";
 import useUser from "../lib/useUser";
 import { logOut } from "../api";
 import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const { userLoading, isLoggedIn, user } = useUser();
@@ -71,9 +72,11 @@ export default function Header() {
         md: "row",
       }}
     >
-      <Box color={logoColor}>
-        <FaAirbnb size={"48"} />
-      </Box>
+      <Link to={"/"}>
+        <Box color={logoColor}>
+          <FaAirbnb size={"48"} />
+        </Box>
+      </Link>
       <HStack spacing={2}>
         <IconButton
           onClick={toggleColorMode}

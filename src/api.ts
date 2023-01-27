@@ -36,9 +36,13 @@ export const logOut = () =>
 
 export const githubLogIn = (code: string) =>
   instance
-    .post(`/users/github`, {
-      headers: {
-        "X-CSRFToken": Cookie.get("csrftoken") || "",
-      },
-    })
+    .post(
+      `/users/github`,
+      { code },
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
     .then((response) => response.status);
