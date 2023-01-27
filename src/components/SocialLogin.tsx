@@ -17,7 +17,13 @@ export default function () {
         <Divider />
       </HStack>
       <VStack>
-        <Button w={"100%"} leftIcon={<FaGithub />} colorScheme={"gray"}>
+        <Button
+          as={"a"}
+          href="https://github.com/login/oauth/authorize?client_id=4e0c6dff81e6079bc9a9&scope=read:user,user:email"
+          w={"100%"}
+          leftIcon={<FaGithub />}
+          colorScheme={"gray"}
+        >
           Continue with Github
         </Button>
         <Button w={"100%"} leftIcon={<FaComment />} colorScheme={"yellow"}>

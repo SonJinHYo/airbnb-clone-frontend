@@ -20,6 +20,7 @@ import SignUpModal from "./SignUpModal";
 import { FaAirbnb, FaMoon, FaSun } from "react-icons/fa";
 import useUser from "../lib/useUser";
 import { logOut } from "../api";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Header() {
   const { userLoading, isLoggedIn, user } = useUser();
@@ -38,12 +39,20 @@ export default function Header() {
   const logoColor = useColorModeValue("red.500", "red.200");
   const Icon = useColorModeValue(FaMoon, FaSun);
   const toast = useToast();
+  const queryClient = useQueryClient();
   const onLogOut = async () => {
-    // const data = await logOut();
-    toast({
-      title: "Good bye",
-      description: "See you later~~",
+    const toastID = toast({
+      title: "Login out..",
+      description: "wating..",
+      status: "loading",
+      position: "bottom-right",
+    });
+    await logOut();
+    queryClient.refetchQueries(["me"]);
+    toast.update(toastID, {
       status: "success",
+      title: "Done",
+      description: "Log Out ",
     });
   };
   return (
