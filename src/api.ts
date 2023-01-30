@@ -88,3 +88,33 @@ export const usernameLogIn = ({
       }
     )
     .then((response) => response.data);
+
+export const getAmenities = () =>
+  instance.get(`rooms/amenities/`).then((response) => response.data);
+
+export const getCategories = () =>
+  instance.get(`categories/`).then((response) => response.data);
+
+export interface IUploadRoomVariavles {
+  name: string;
+  country: string;
+  city: string;
+  address: string;
+  price: number;
+  rooms: number;
+  toilets: number;
+  description: string;
+  pet_freiendly: boolean;
+  kind: string;
+  category: number;
+  amenities: number[];
+}
+
+export const uploadRoom = (variables: IUploadRoomVariavles) =>
+  instance
+    .post(`rooms/`, variables, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
