@@ -18,9 +18,16 @@ import { getRoom, getRoomReviews } from "../api";
 import { IReview, IRoomDetail } from "../types";
 import { Calendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 export default function RoomDetail() {
-  const [dates, setDates] = useState<Date>();
+  const [dates, setDates] = useState<Date[]>();
+  useEffect(() => {
+    if (dates) {
+      const [firstDate, secondDate] = dates;
+      const [checkIn] = firstDate.toJSON().split("T");
+      const checkOut = secondDate.toJSON().split("T");
+    }
+  });
   const { roomPk } = useParams();
   const { isLoading, data } = useQuery<IRoomDetail>(["rooms", roomPk], getRoom);
   const { data: reviewsData, isLoading: isReviewsLoading } = useQuery<
