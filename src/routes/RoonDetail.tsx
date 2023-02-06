@@ -10,30 +10,35 @@ import {
   HStack,
   Avatar,
   Container,
+  Button,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { FaStar } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import { getRoom, getRoomReviews } from "../api";
+import { checkBooking, getRoom, getRoomReviews } from "../api";
 import { IReview, IRoomDetail } from "../types";
 import { Calendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 export default function RoomDetail() {
   const [dates, setDates] = useState<Date[]>();
-  useEffect(() => {
-    if (dates) {
-      const [firstDate, secondDate] = dates;
-      const [checkIn] = firstDate.toJSON().split("T");
-      const checkOut = secondDate.toJSON().split("T");
-    }
-  });
   const { roomPk } = useParams();
+
+  const { data: checkBookingData, isLoading: isCheckingBooking } = useQuery(
+    ["check", roomPk, dates],
+    checkBooking,
+    {
+      enabled: dates !== undefined,
+      cacheTime: 0,
+    }
+  );
+
   const { isLoading, data } = useQuery<IRoomDetail>(["rooms", roomPk], getRoom);
   const { data: reviewsData, isLoading: isReviewsLoading } = useQuery<
     IReview[]
   >([`rooms`, roomPk, `reviews`], getRoomReviews);
-
+  console.log(data, isCheckingBooking);
   return (
     <Box
       mt={10}
@@ -42,6 +47,9 @@ export default function RoomDetail() {
         lg: 40,
       }}
     >
+      <Helmet>
+        <title>{data ? data.name : "Loading..."}</title>
+      </Helmet>
       <Skeleton height={"50px"} width="25%" isLoaded={!isLoading}>
         <Heading>{data?.name}</Heading>
       </Skeleton>
@@ -147,6 +155,15 @@ export default function RoomDetail() {
             minDetail="month"
             selectRange
           />
+          <Button
+            disabled={checkBookingData?.ok}
+            isLoading={isCheckingBooking}
+            mt={5}
+            w={"100%"}
+            colorScheme={"red"}
+          >
+            Make Booking
+          </Button>
         </Box>
       </Grid>
     </Box>
